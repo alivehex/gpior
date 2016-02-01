@@ -1,0 +1,1 @@
+-c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -o "i2s.o" --omf_browse "i2s.crf" --depend "i2s.d" "..\..\..\i2s.c"

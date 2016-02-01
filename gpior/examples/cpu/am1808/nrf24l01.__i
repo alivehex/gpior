@@ -1,0 +1,1 @@
+-c --cpu ARM926EJ-S -g -O2 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -DMMU_INIT -o "nrf24l01.o" --omf_browse "nrf24l01.crf" --depend "nrf24l01.d" "..\..\..\drivers\NRF24L01\nrf24l01.c"

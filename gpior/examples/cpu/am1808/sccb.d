@@ -1,0 +1,14 @@
+sccb.o: ..\..\..\drivers\SCCB\sccb.c
+sccb.o: ..\..\..\cpu\iocfg.h
+sccb.o: .\include\hex_gpio.h
+sccb.o: .\include\types.h
+sccb.o: .\include\hex_sysdelay.h
+sccb.o: ..\..\..\include\spi.h
+sccb.o: ..\..\..\include\sd.h
+sccb.o: ..\..\..\include\i2c.h
+sccb.o: ..\..\..\include\sccb.h
+sccb.o: ..\..\..\include\e2prom.h
+sccb.o: ..\..\..\include\vs1003.h
+sccb.o: ..\..\..\include\ds18b20.h
+sccb.o: ..\..\..\include\nrf24l01.h
+sccb.o: ..\..\..\cpu\iocfg.h

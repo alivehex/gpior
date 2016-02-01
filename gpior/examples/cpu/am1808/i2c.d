@@ -1,0 +1,14 @@
+i2c.o: ..\..\..\i2c.c
+i2c.o: ..\..\..\cpu\iocfg.h
+i2c.o: .\include\hex_gpio.h
+i2c.o: .\include\types.h
+i2c.o: .\include\hex_sysdelay.h
+i2c.o: ..\..\..\include\spi.h
+i2c.o: ..\..\..\include\sd.h
+i2c.o: ..\..\..\include\i2c.h
+i2c.o: ..\..\..\include\sccb.h
+i2c.o: ..\..\..\include\e2prom.h
+i2c.o: ..\..\..\include\vs1003.h
+i2c.o: ..\..\..\include\ds18b20.h
+i2c.o: ..\..\..\include\nrf24l01.h
+i2c.o: ..\..\..\cpu\iocfg.h

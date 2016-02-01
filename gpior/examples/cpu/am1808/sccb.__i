@@ -1,0 +1,1 @@
+-c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -DMMU_INIT -o "sccb.o" --omf_browse "sccb.crf" --depend "sccb.d" "..\..\..\drivers\SCCB\sccb.c"

@@ -1,0 +1,21 @@
+*** Creating Trace Output File 'AM1806.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\JoyceSDK.lib"'
+### List of Objects: adding '"main.o"'
+### ADS-LD Command completed:
+--cpu ARM926EJ-S E:\AliveHex\projects\GPIOR\examples\cpu\am1808\JoyceSDK.lib "main.o" 
+--scatter ".\AM1806.scatter" 
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\AM1806.map" -o AM1806.axf### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: 'AM1806.axf'
+### ADS-LD Command File: 'AM1806.lnp'
+### Checking for dirty Components...
+### Creating CmdFile 'AM1806.lnp', Handle=0x0000059C
+### Writing '.lnp' file
+### ADS-LD Command file 'AM1806.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.

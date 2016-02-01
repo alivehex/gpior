@@ -1,0 +1,14 @@
+spi.o: ..\..\..\spi.c
+spi.o: ..\..\..\include\nrf24l01.h
+spi.o: ..\..\..\cpu\iocfg.h
+spi.o: .\include\hex_gpio.h
+spi.o: .\include\types.h
+spi.o: .\include\hex_sysdelay.h
+spi.o: ..\..\..\include\spi.h
+spi.o: ..\..\..\include\sd.h
+spi.o: ..\..\..\include\i2c.h
+spi.o: ..\..\..\include\sccb.h
+spi.o: ..\..\..\include\e2prom.h
+spi.o: ..\..\..\include\vs1003.h
+spi.o: ..\..\..\include\ds18b20.h
+spi.o: ..\..\..\include\nrf24l01.h

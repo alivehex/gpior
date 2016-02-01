@@ -1,0 +1,26 @@
+Dependencies for Project 'AM1806', Target 'GPIOR': (DO NOT MODIFY !)
+F (.\JoyceSDK.lib)(0x51F09E52)()
+F (.\include\hex_ddrc.h)(0x4FAC61B1)()
+F (.\include\hex_gpio.h)(0x5077CC71)()
+F (.\include\hex_i2c.h)(0x50BD6E7D)()
+F (.\include\hex_kbd.h)(0x50778A56)()
+F (.\include\hex_lcd.h)(0x51999593)()
+F (.\include\hex_log.h)(0x4FD94F95)()
+F (.\include\hex_mcasp.h)(0x507789CF)()
+F (.\include\hex_mmc.h)(0x519484FE)()
+F (.\include\hex_mtd.h)(0x4FA32F5B)()
+F (.\include\hex_nand.h)(0x4FC734AD)()
+F (.\include\hex_pllc.h)(0x4FAC60FA)()
+F (.\include\hex_pwmc.h)(0x4F97CB6D)()
+F (.\include\hex_spi.h)(0x508119D0)()
+F (.\include\hex_sysdelay.h)(0x4FA7319F)()
+F (.\include\hex_timer.h)(0x50A09E6B)()
+F (.\include\hex_uart.h)(0x4F9753C0)()
+F (.\include\hex_wdt.h)(0x4F97A284)()
+F (.\include\mtd.h)(0x4FC47A74)()
+F (.\include\vfs.h)(0x4FC47AA4)()
+F (.\main.c)(0x520DBA17)(-c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I..\..\..\include\cpu -I "C:\Program Files\MDK\ARM\RV31\INC" -I "C:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -DMMU_INIT -o "main.o" --omf_browse "main.crf" --depend "main.d")
+I (..\..\..\include\e2prom.h)(0x50863DC4)
+I (C:\Program Files\MDK\ARM\ARMCC\bin\..\include\stdlib.h)(0x50F96150)
+I (C:\Program Files\MDK\ARM\ARMCC\bin\..\include\string.h)(0x50F96150)
+F (.\AM1806.scatter)(0x4FCF1660)()

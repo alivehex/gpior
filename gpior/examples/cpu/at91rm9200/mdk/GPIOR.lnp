@@ -1,0 +1,4 @@
+--cpu ARM920T "cstartup.o" ".\startup.o" "main.o" ".\delay.o" "crc7.o" "crc16.o" "trace.o" --strict --scatter ".\scat.scatter" 
+--entry=VCT_TABLE --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\GPIOR.map" -o "GPIOR.axf"

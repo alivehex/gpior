@@ -1,0 +1,14 @@
+e2prom.o: ..\..\..\drivers\EEPROM\e2prom.c
+e2prom.o: ..\..\..\cpu\iocfg.h
+e2prom.o: .\include\hex_gpio.h
+e2prom.o: .\include\types.h
+e2prom.o: .\include\hex_sysdelay.h
+e2prom.o: ..\..\..\include\spi.h
+e2prom.o: ..\..\..\include\sd.h
+e2prom.o: ..\..\..\include\i2c.h
+e2prom.o: ..\..\..\include\sccb.h
+e2prom.o: ..\..\..\include\e2prom.h
+e2prom.o: ..\..\..\include\vs1003.h
+e2prom.o: ..\..\..\include\ds18b20.h
+e2prom.o: ..\..\..\include\nrf24l01.h
+e2prom.o: ..\..\..\cpu\iocfg.h
