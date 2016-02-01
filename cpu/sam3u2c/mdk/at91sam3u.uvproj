@@ -367,7 +367,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>TRACE_LEVEL=0,NOFPUT</Define>
               <Undefine></Undefine>
-              <IncludePath>..\fatfs;..\startup;..\drivers;..\memories;..\peripherals;..\..\sam3u2c</IncludePath>
+              <IncludePath>..\fatfs;..\startup;..\drivers;..\memories;..\peripherals;..\..\sam3u2c;..\..\..\common</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -433,6 +433,24 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>source</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\utility\retarget.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>drivers</GroupName>
+        </Group>
+        <Group>
           <GroupName>peripherals</GroupName>
           <Files>
             <File>
@@ -461,64 +479,9 @@
               <FilePath>..\peripherals\systick\systick.c</FilePath>
             </File>
             <File>
-              <FileName>dma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\dma\dma.c</FilePath>
-            </File>
-            <File>
-              <FileName>hsmc4.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\hsmc4\hsmc4.c</FilePath>
-            </File>
-            <File>
-              <FileName>mci_hs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\mci\mci_hs.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\rtc\rtc.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\rtt\rtt.c</FilePath>
-            </File>
-            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\peripherals\spi\spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>ssc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\ssc\ssc.c</FilePath>
-            </File>
-            <File>
-              <FileName>twi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\twi\twi.c</FilePath>
-            </File>
-            <File>
-              <FileName>eefc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\peripherals\eefc\eefc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>source</GroupName>
-          <Files>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>retarget.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\utility\retarget.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -534,61 +497,6 @@
               <FileName>flash.sct</FileName>
               <FileType>5</FileType>
               <FilePath>.\flash.sct</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>drivers</GroupName>
-          <Files>
-            <File>
-              <FileName>dmad.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\drivers\dmad\dmad.c</FilePath>
-            </File>
-            <File>
-              <FileName>Media.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\memories\Media.c</FilePath>
-            </File>
-            <File>
-              <FileName>MEDSdcard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\memories\MEDSdcard.c</FilePath>
-            </File>
-            <File>
-              <FileName>sdmmc_mci.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\memories\sdmmc\sdmmc_mci.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>utility</GroupName>
-          <Files>
-            <File>
-              <FileName>math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\utility\math.c</FilePath>
-            </File>
-            <File>
-              <FileName>dfm_fatfs.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\utility\dfm_fatfs.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>fatfs</GroupName>
-          <Files>
-            <File>
-              <FileName>diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\fatfs\diskio.c</FilePath>
-            </File>
-            <File>
-              <FileName>ff.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\fatfs\ff.c</FilePath>
             </File>
           </Files>
         </Group>
