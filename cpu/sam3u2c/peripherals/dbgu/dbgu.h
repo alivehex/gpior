@@ -74,6 +74,14 @@ extern unsigned char DBGU_GetChar(void);
 extern void DBGU_PutChar(unsigned char c);
 
 extern unsigned int DBGU_IsRxReady(void);
+	
+int kprintf(const char *str, ...);
+	
+#define debug(...)	kprintf(__VA_ARGS__)
+#define debugln(...) \
+	kprintf(__VA_ARGS__); \
+	DBGU_PutChar('\r'); \
+	DBGU_PutChar('\n')
 
 #endif //#ifndef DBGU_H
 

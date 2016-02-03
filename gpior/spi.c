@@ -1,221 +1,202 @@
-#include "nrf24l01.h"
+#include "gpior.h"
+#include "spi.h"
 
-#if (GPIOR_SPI)
-
-#if (1)
-void SPI_GPIOR_DELAYUS(volatile int t) {
-	while (t --);
-}
+#if (SPI_IGNORE_FREQ_SETTING)
+# define spi_delay_us(n)	while (0)
+#else
+static uint32_t spi_freq_delay[SPI_TOTAL_CHANNELS] = {0};
+# define spi_delay_us(n)	gpior_delay_us(n)
 #endif
 
+#define spi_output_bit() \
+	if(byte & 0x80) { \
+		GPIOR_SETIO(SPI_PORT, SPI_MOSI_PIN); \
+	} else { \
+		GPIOR_CLRIO(SPI_PORT, SPI_MOSI_PIN); \
+	} \
+	byte <<= 1; \
+	spi_delay_us(spi_freq_delay[ch])
+	
+#define spi_input_bit() \
+	buf <<= 1; \
+	if(GPIOR_GETIO(SPI_PORT, SPI_MISO_PIN)) { \
+		buf |= 1; \
+	} \
+	spi_delay_us(spi_freq_delay[ch])
 
-#define GPIOR_SPI_MAXCH		4
-
-static int SPI_CHEN[GPIOR_SPI_MAXCH] = {0};
-
-#if !(SPI_MAX_FREQ)
-static int SPI_CLK_DELAY[GPIOR_SPI_MAXCH] = {0};
-static void (*SPI_DELAYUS)(int) = NULL;
-static void SPI_DUMMY(int t) {
-	while (t --);
-}
-#else
-#	define SPI_DELAYUS(us)	while (0)
-#endif /* if !(SPI_MAX_FREQ) */
-
-/*
- * @ check if all channels are closed
- */
-static __inline int IS_SPI_ALLCH_DISABLED() {
- 	int i;
-
-	for(i = 0; i < GPIOR_SPI_MAXCH; i ++) {
-	 	if(SPI_CHEN[i]) {
-			return FALSE;
-		}
-	}
-	return TRUE; 
-}
-
+// mark for spi slave select enable
+static uint8_t spi_ss_mask = 0;
+		
 /*
  * @ config gpio input mode, etc...
  */
-static void SPI_GPIO_INIT(int ch) {
- 	SPI_PLAT_INIT(ch);
-	if(IS_SPI_ALLCH_DISABLED()) {
-		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_MOSI_PIN);
-		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_SPCK_PIN);
-		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_MISO_PIN);
+//static void SPI_GPIO_INIT(int ch) {
+static void spi_gpio_init(SpiSlaveSelect ch) {
+ 	spi_lowlevel_init(ch);
+	
+	GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_MOSI_PIN);
+	GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_SPCK_PIN);
+	GPIOR_CFGIO_INPUT_PULLUP(SPI_PORT, SPI_MISO_PIN);
+	
+	if (ch == SPI_SS_0) {
+		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_NPCS0_PIN);
+	} else if (ch == SPI_SS_1) {
+		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_NPCS1_PIN);
+	} else if (ch == SPI_SS_2) {
+		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_NPCS2_PIN);
+	} else if (ch == SPI_SS_3) {
+		GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_NPCS3_PIN);
 	}
-	GPIOR_CFGIO_OUTPUT(SPI_PORT, SPI_NPCS_PIN(ch));
 	
-#if (SPI_CS) /* SPI_CS_ACTIVE_HIGH */
-	GPIOR_CLRIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#else 		 /* SPI_CS_ACTIVE_LOW */
-	GPIOR_SETIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#endif /* if (SPI_CS) */
+	/* disable spi channel */
+	spi_ss_high(ch);
 	
-#if (SPI_CPOL)	/* SPI_CLOCK_INACTIVE_HIGH */
+	/* spi clock line level in idle mode */
+#if (SPI_CPOL==1)	
 	GPIOR_SETIO(SPI_PORT, SPI_SPCK_PIN);
-#else			/* SPI_CLOCK_INACTIVE_LOW */
+#else				
 	GPIOR_CLRIO(SPI_PORT, SPI_SPCK_PIN);
-#endif /* if (SPI_CPOL) */
+#endif
 }
-
 
 /*
  * @ open SPI
  */
-int SPI_open(int ch, unsigned int clock_freq_hz) {
-	SPI_GPIO_INIT(ch);
-#if !(SPI_MAX_FREQ)
-	SPI_CLK_DELAY[ch] = GPIOR_MAX_FREQHZ / clock_freq_hz / 2;
-	if(SPI_CLK_DELAY[ch] == 0)
-		SPI_DELAYUS = SPI_DUMMY;
-	else
-		SPI_DELAYUS = SPI_GPIOR_DELAYUS;
+//int SPI_open(int ch, unsigned int clock_freq_hz) {
+void spi_open(SpiSlaveSelect ch, uint32_t freq_hz) {
+	spi_gpio_init(ch);
+	
+#if !(SPI_IGNORE_FREQ_SETTING)
+	spi_freq_delay[ch] = 1000000 / freq_hz;
 #endif
-	SPI_CHEN[ch] = TRUE;
-	return 0;
+	
+	spi_ss_mask |= (1 << ch);
 }
-
 
 /*
 ** @ Active the SPI CS line
 **/
-void SPI_enable(int ch) {
-#if (SPI_CS) /* SPI_CS_ACTIVE_HIGH */
-	GPIOR_SETIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#else 		 /* SPI_CS_ACTIVE_LOW */
-	GPIOR_CLRIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#endif /* if (SPI_CS) */
+void spi_ss_low(SpiSlaveSelect ch) {
+	if (ch == SPI_SS_0) {
+		GPIOR_CLRIO(SPI_PORT, SPI_NPCS0_PIN);
+	} else if (ch == SPI_SS_1) {
+		GPIOR_CLRIO(SPI_PORT, SPI_NPCS1_PIN);
+	} else if (ch == SPI_SS_2) {
+		GPIOR_CLRIO(SPI_PORT, SPI_NPCS2_PIN);
+	} else if (ch == SPI_SS_3) {
+		GPIOR_CLRIO(SPI_PORT, SPI_NPCS3_PIN);
+	}
 }
 
 
 /*
 ** @ Inactive the SPI CS line
 **/
-void SPI_disable(int ch) {
-#if (SPI_CS) /* SPI_CS_ACTIVE_HIGH */
-	GPIOR_CLRIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#else 		 /* SPI_CS_ACTIVE_LOW */
-	GPIOR_SETIO(SPI_PORT, SPI_NPCS_PIN(ch));
-#endif /* if (SPI_CS) */	
+void spi_ss_high(SpiSlaveSelect ch) {
+	if (ch == SPI_SS_0) {
+		GPIOR_SETIO(SPI_PORT, SPI_NPCS0_PIN);
+	} else if (ch == SPI_SS_1) {
+		GPIOR_SETIO(SPI_PORT, SPI_NPCS1_PIN);
+	} else if (ch == SPI_SS_2) {
+		GPIOR_SETIO(SPI_PORT, SPI_NPCS2_PIN);
+	} else if (ch == SPI_SS_3) {
+		GPIOR_SETIO(SPI_PORT, SPI_NPCS3_PIN);
+	}
 }
-
 
 /*
  * @ software SPI write
  * @ return read value
  */
-unsigned char SPI_write(int ch, unsigned char byte) {
-	unsigned char buf = 0;
-	unsigned char i;
+uint8_t spi_write_byte(SpiSlaveSelect ch, uint8_t byte) {
+	uint8_t buf = 0;
+	uint8_t i;
 
 	for(i = 0; i < 8; i++) {
-#if (SPI_CPOL)		/* SPI_CLOCK_INACTIVE_HIGH */
-#	if (SPI_CLPH) 	/* SPI_CAPTURE_ON_RISING_EDGE */
-		/* CLOCK line low */
+#if (SPI_CPOL==1)		/* clock low in idle */
+# if (SPI_CPHA==1) 		/* captured on rising, output on falling */
+		/** SPI MODE 3 **/
+		
 		GPIOR_CLRIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MOSI line output */
-		if(byte & 0x80) { // MSB
-			GPIOR_SETIO(SPI_PORT, SPI_MOSI_PIN);
-		} else {
-			GPIOR_CLRIO(SPI_PORT, SPI_MOSI_PIN);
-		}
-		byte <<= 1;
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);
-		/* CLOCK line high */
+		/* output to MOSI line, MSB format */
+		spi_output_bit();
 		GPIOR_SETIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MISO line input */
-		buf <<= 1;
-		if(GPIOR_GETIO(SPI_PORT, SPI_MISO_PIN)) {
-			buf |= 1;
-		}
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);		
-#	else 			/* SPI_CAPTURE_ON_FALLING_EDGE */
-		/* MOSI line output */
-		if(byte & 0x80) { // MSB
-			GPIOR_SETIO(SPI_PORT, SPI_MOSI_PIN);
-		} else {
-			GPIOR_CLRIO(SPI_PORT, SPI_MOSI_PIN);
-		}
-		byte <<= 1;
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);
-		/* CLOCK line low */
+		/* input from MISO line, MSB format */
+		spi_input_bit();
+		
+# elif (SPI_CPHA==0) 	/* captured on falling, output on rising */
+		/** SPI MODE 2 **/
+		
+		spi_output_bit();
 		GPIOR_CLRIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MISO line input */
-		buf <<= 1;
-		if(GPIOR_GETIO(SPI_PORT, SPI_MISO_PIN)) {
-			buf |= 1;
-		}
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);	
-		/* CLOCK line high */
+		spi_input_bit();	
 		GPIOR_SETIO(SPI_PORT, SPI_SPCK_PIN);
 		
-#	endif /* if (SPI_CPOL) */		
-#else 				/* SPI_CLOCK_INACTIVE_LOW */
-#	if (SPI_CLPH)	/* SPI_CAPTURE_ON_RISING_EDGE */
-		/* MOSI line output */
-		if(byte & 0x80) { // MSB
-			GPIOR_SETIO(SPI_PORT, SPI_MOSI_PIN);
-		} else {
-			GPIOR_CLRIO(SPI_PORT, SPI_MOSI_PIN);
-		}
-		byte <<= 1;
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);
-		/* CLOCK line high */
+# endif	// if (SPI_CPHA==1)	
+#elif (SPI_CPOL==0)		/* clock low in idle */
+# if (SPI_CPHA==1)		/* captured on falling, output on rising */
+		/** SPI MODE 1 **/
+		
 		GPIOR_SETIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MISO line input */
-		buf <<= 1;
-		if(GPIOR_GETIO(SPI_PORT, SPI_MISO_PIN)) {
-			buf |= 1;
-		}
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);
-		/* CLOCK line low */
+		spi_output_bit();
 		GPIOR_CLRIO(SPI_PORT, SPI_SPCK_PIN);
-#	else 			/* SPI_CAPTURE_ON_FALLING_EDGE */
-		/* CLOCK line high */
+		spi_input_bit();		
+		
+# elif (SPI_CPHA==0)	/* captured on rising, output on falling */
+		/** SPI MODE 0 **/
+		
+		spi_output_bit();
 		GPIOR_SETIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MOSI line output */
-		if(byte & 0x80) { // MSB
-			GPIOR_SETIO(SPI_PORT, SPI_MOSI_PIN);
-		} else {
-			GPIOR_CLRIO(SPI_PORT, SPI_MOSI_PIN);
-		}
-		byte <<= 1;
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);
-		/* CLOCK line low */
+		spi_input_bit();
 		GPIOR_CLRIO(SPI_PORT, SPI_SPCK_PIN);
-		/* MISO line input */
-		buf <<= 1;
-		if(GPIOR_GETIO(SPI_PORT, SPI_MISO_PIN)) {
-			buf |= 1;
-		}
-		SPI_DELAYUS(SPI_CLK_DELAY[ch]);		
-#	endif /* if (SPI_CPOL) */		
-#endif /* if (SPI_CLPH) */
+			
+# endif // if (SPI_CPHA==1)		
+#endif  // if (SPI_CPOL==1)
 	}
 	return buf;
+}
+
+/** Write buffer **/
+void spi_write(SpiSlaveSelect ch, uint8_t *output, uint8_t* input, int length) {
+	for(int i = 0; i < length; i ++) {
+		if (input) {
+			if (output) {
+				input[i] = spi_write_byte(ch, output[i]);
+			} else {
+				input[i] = spi_write_byte(ch, 0xff);
+			}
+		} else {
+			if (output) {
+				spi_write_byte(ch, output[i]);
+			} else {
+				spi_write_byte(ch, 0xff);
+			}
+		}
+	}
 }
 
 /*
  * @ SPI close
  */	
-int SPI_close(int ch) {
-	if(IS_SPI_ALLCH_DISABLED()) {
-		/* all channels are closed */
+void spi_close(SpiSlaveSelect ch) {	
+	if (ch == SPI_SS_0) {
+		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_NPCS0_PIN);
+	} else if (ch == SPI_SS_1) {
+		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_NPCS1_PIN);
+	} else if (ch == SPI_SS_2) {
+		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_NPCS2_PIN);
+	} else if (ch == SPI_SS_3) {
+		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_NPCS3_PIN);
+	}
+	
+	spi_ss_mask &= ~(1 << ch);
+	
+	if(spi_ss_mask == 0) {
 		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_MOSI_PIN);
 		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_MISO_PIN);
 		GPIOR_CFGIO_INPUT(SPI_PORT, SPI_SPCK_PIN);
-		SPI_PLAT_DEINIT(ch);
+		
+		spi_lowlevel_deinit(ch);
 	}
-	GPIOR_CFGIO_INPUT(SPI_PORT, SPI_NPCS_PIN(ch));
-	SPI_CHEN[ch] = TRUE;
- 	return 0;
 }
-
-#else
-#error SET GPIOR_SPI TO 1 (IN iocfg.h) TO ENABLE SPI DRIVER
-#endif // if (GPIOR_SPI)
 

@@ -1,9 +1,0 @@
-diskio.o: ..\..\..\..\fs\fatfs\diskio.c
-diskio.o: ..\..\..\..\include\diskio.h
-diskio.o: ..\..\..\..\include\integer.h
-diskio.o: ..\..\..\..\include\types.h
-diskio.o: ..\..\..\..\include\gpior.h
-diskio.o: ..\..\..\..\cpu\iocfg.h
-diskio.o: ..\..\at91rm9200\at91rm9200.h
-diskio.o: ..\..\..\..\include\i2c.h
-diskio.o: ..\..\..\..\include\sccb.h

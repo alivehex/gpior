@@ -111,7 +111,7 @@ unsigned char DBGU_GetChar(void)
     return AT91C_BASE_DBGU->DBGU_RHR;
 }
 
-#ifndef NOFPUT
+#if (0)
 #include <stdio.h>
 
 //------------------------------------------------------------------------------
@@ -175,5 +175,24 @@ signed int putchar(signed int c)
     return fputc(c, stdout);
 }
 
-#endif //#ifndef NOFPUT
+#endif // if (0)
+
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+
+int kprintf(const char *str, ...) {
+	char string[128];
+	char *ptr = string;
+	va_list ap;
+
+	va_start(ap,str);
+	vsprintf(string,str,ap);
+	va_end(ap);
+	
+	while (*ptr != '\0') {
+		DBGU_PutChar(*ptr ++);
+	}
+	return 0;
+}
 

@@ -1,1 +1,0 @@
--c --cpu ARM920T -g -O2 -Otime --apcs=interwork -I..\..\..\..\include -I..\..\..\..\include\cpu -I..\..\..\..\include\libs -I..\..\at91rm9200 -I..\..\..\..\cpu -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -I "D:\Program Files\MDK\ARM\Inc\Atmel\RM9200" -o "uart.o" --omf_browse "uart.crf" --depend "uart.d" "..\..\..\..\uart.c"

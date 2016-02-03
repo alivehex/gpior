@@ -1,4 +1,0 @@
--c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I..\..\..\include\cpu 
--I "C:\Program Files\MDK\ARM\RV31\INC" 
--I "C:\Program Files\MDK\ARM\CMSIS\Include" 
--Dam1808 -DMMU_INIT -o "ex_e2prom.o" --omf_browse "ex_e2prom.crf" --depend "ex_e2prom.d" "..\..\ex_e2prom.c"

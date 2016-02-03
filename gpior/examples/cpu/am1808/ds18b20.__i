@@ -1,1 +1,0 @@
--c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -DMMU_INIT -o "ds18b20.o" --omf_browse "ds18b20.crf" --depend "ds18b20.d" "..\..\..\drivers\DS18B20\ds18b20.c"

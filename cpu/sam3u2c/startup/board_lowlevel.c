@@ -102,7 +102,7 @@ void LowLevelInit(void)
     /* Select external slow clock
      ****************************/
     if ((AT91C_BASE_SUPC->SUPC_SR & AT91C_SUPC_OSCSEL) != AT91C_SUPC_OSCSEL) {
-        AT91C_BASE_SUPC->SUPC_CR = AT91C_SUPC_XTALSEL | (0xA5 << 24);
+        AT91C_BASE_SUPC->SUPC_CR = AT91C_SUPC_XTALSEL | (0xA5u << 24);
         timeout = 0;
         while (!(AT91C_BASE_SUPC->SUPC_SR & AT91C_SUPC_OSCSEL) && (timeout++ < CLOCK_TIMEOUT));
     }

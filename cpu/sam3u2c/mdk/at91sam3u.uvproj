@@ -365,9 +365,9 @@
             <v6LangP>0</v6LangP>
             <VariousControls>
               <MiscControls>--gnu</MiscControls>
-              <Define>TRACE_LEVEL=0,NOFPUT</Define>
+              <Define>TRACE_LEVEL=0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\fatfs;..\startup;..\drivers;..\memories;..\peripherals;..\..\sam3u2c;..\..\..\common</IncludePath>
+              <IncludePath>..\startup;..\..\..\gpior;..\peripherals;..\..\sam3u2c;..\..\..\common;..\..\..\gpior\cpu\sam3u;..\..\..\drivers;..\..\..\filesystem\fatfs;..\..\..\library;..\..\..\cmd</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -421,11 +421,6 @@
               <FilePath>..\startup\board_lowlevel.c</FilePath>
             </File>
             <File>
-              <FileName>board_memories.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\startup\board_memories.c</FilePath>
-            </File>
-            <File>
               <FileName>exceptions.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\startup\exceptions.c</FilePath>
@@ -440,15 +435,27 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
-            <File>
-              <FileName>retarget.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\utility\retarget.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\gpior\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpior.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\gpior\gpior.c</FilePath>
+            </File>
+            <File>
+              <FileName>sdspi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\drivers\sdspi.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>peripherals</GroupName>
@@ -478,10 +485,60 @@
               <FileType>1</FileType>
               <FilePath>..\peripherals\systick\systick.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>filesystem</GroupName>
+          <Files>
             <File>
-              <FileName>spi.c</FileName>
+              <FileName>diskio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\peripherals\spi\spi.c</FilePath>
+              <FilePath>..\..\..\filesystem\fatfs\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\filesystem\fatfs\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>ccsbcs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\filesystem\fatfs\option\ccsbcs.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>cmd</GroupName>
+          <Files>
+            <File>
+              <FileName>cmdline.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\cmd\cmdline.c</FilePath>
+            </File>
+            <File>
+              <FileName>cmd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\cmd\cmd.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>library</GroupName>
+          <Files>
+            <File>
+              <FileName>retarget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\utility\retarget.c</FilePath>
+            </File>
+            <File>
+              <FileName>crc7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\library\crc7.c</FilePath>
+            </File>
+            <File>
+              <FileName>crc16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\library\crc16.c</FilePath>
             </File>
           </Files>
         </Group>

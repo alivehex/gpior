@@ -1,1 +1,0 @@
--c --cpu ARM926EJ-S -g -O0 --apcs=interwork -I.\include -I.\include\yaffs -I..\..\..\include -I..\..\..\cpu -I..\..\..\include\libs -I "D:\Program Files\MDK\ARM\RV31\Inc" -I "D:\Program Files\MDK\ARM\CMSIS\Include" -Dam1808 -DMMU_INIT -o "vs1003.o" --omf_browse "vs1003.crf" --depend "vs1003.d" "..\..\..\drivers\VS1003\vs1003.c"
