@@ -51,9 +51,9 @@ static int fatfs_test(const char *txt_filepath) {
  	const char copy_fname[] = "copy.txt";
 	FIL fh;
 	FIL cfh;
-	uint8 buffer[512];
-	uint32 nbytes;
-	uint32 wnbytes;
+	uint8_t buffer[512];
+	uint32_t nbytes;
+	uint32_t wnbytes;
 	FRESULT res;
 	FATFS fat;
 	

@@ -367,7 +367,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>TRACE_LEVEL=0</Define>
               <Undefine></Undefine>
-              <IncludePath>..\startup;..\..\..\gpior;..\peripherals;..\..\sam3u2c;..\..\..\common;..\..\..\gpior\cpu\sam3u;..\..\..\drivers;..\..\..\filesystem\fatfs;..\..\..\library;..\..\..\cmd</IncludePath>
+              <IncludePath>..\startup;..\..\..\gpior;..\peripherals;..\..\sam3u2c;..\..\..\common;..\..\..\gpior\cpu\sam3u;..\..\..\drivers;..\..\..\library;..\..\..\cmd;..\..\..\filesystem;..\..\..\filesystem\fatfs\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -491,19 +491,29 @@
           <GroupName>filesystem</GroupName>
           <Files>
             <File>
-              <FileName>diskio.c</FileName>
+              <FileName>fs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\filesystem\fatfs\diskio.c</FilePath>
+              <FilePath>..\..\..\filesystem\fs.c</FilePath>
+            </File>
+            <File>
+              <FileName>mtd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\filesystem\mtd.c</FilePath>
             </File>
             <File>
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\filesystem\fatfs\ff.c</FilePath>
+              <FilePath>..\..\..\filesystem\fatfs\src\ff.c</FilePath>
             </File>
             <File>
               <FileName>ccsbcs.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\filesystem\fatfs\option\ccsbcs.c</FilePath>
+              <FilePath>..\..\..\filesystem\fatfs\src\ccsbcs.c</FilePath>
+            </File>
+            <File>
+              <FileName>fatio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\filesystem\fatfs\port\fatio.c</FilePath>
             </File>
           </Files>
         </Group>

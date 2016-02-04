@@ -50,11 +50,14 @@
 #include <dbgu/dbgu.h>
 #include <stdio.h>
 
+//#include "fs.h"
+
+#if (0)
+
 // Disable semihosting
 #pragma import(__use_no_semihosting_swi) 
 
-struct __FILE { int handle;} ;
-
+//struct __FILE { int handle;} ;
 FILE __stdout;
 FILE __stdin;
 FILE __stderr;
@@ -78,6 +81,7 @@ int fputc(int ch, FILE *f) {
 int ferror(FILE *f) {
     return EOF;
 }
+#endif
 
 
 void _ttywrch(int ch) {

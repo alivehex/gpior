@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+
+#include "fs.h"
+
+#pragma import(__use_no_semihosting_swi) 
+
+FILE __stdout;
+FILE __stdin;
+FILE __stderr;
+
+FILE * fopen ( const char * filename, const char * mode ) {
+	return NULL;
+}
+
+int fclose ( FILE * stream ) {
+	return 0;
+}
+
+size_t fread ( void * ptr, size_t size, size_t count, FILE * stream ) {
+	return 0;
+}
+
+size_t fwrite ( const void * ptr, size_t size, size_t count, FILE * stream ) {
+	return 0;
+}
+
+int fseek ( FILE * stream, long int offset, int origin ) {
+	return 0;
+}
+
+long int ftell ( FILE * stream ) {
+	return 0;
+}
+
+int fgetpos ( FILE * stream, fpos_t * pos ) {
+	return 0;
+}
+
+int fsetpos ( FILE * stream, const fpos_t * pos ) {
+	return 0;
+}
+
+void clearerr ( FILE * stream ) {
+	
+}
+
+int feof ( FILE * stream ) {
+	return 0;
+}
+
+int ferror ( FILE * stream ) {
+	return 0;
+}
+
+int fflush ( FILE * stream ) {
+	return 0;
+}
+
+int fgetc ( FILE * stream ) {
+	return 0;
+}
+
+char * fgets ( char * str, int num, FILE * stream ) {
+	return NULL;
+}
+
+int fprintf ( FILE * stream, const char * format, ... ) {
+	return 0;
+}
+
+int fscanf ( FILE * stream, const char * format, ... ) {
+	return 0;
+}
+
+int fputc ( int character, FILE * stream ) {
+	return 0;
+}
+
+int fputs ( const char * str, FILE * stream ) {
+	return 0;
+}
+
+FILE * freopen ( const char * filename, const char * mode, FILE * stream ) {
+	return NULL;
+}
+
+
+
+
+
+
+

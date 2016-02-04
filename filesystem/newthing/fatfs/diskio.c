@@ -54,7 +54,7 @@ DRESULT MMC_disk_read(BYTE * buff, int sector, int count) {
 		sector ++;
 	}
 #endif
-	if(sd_read_multiple_blocks(sector, buff, count) == 0) {
+	if(sd_read_multiple_blocks(sector, (char *)buff, count) == 0) {
 		return RES_OK;
 	} else {
 		return RES_ERROR;
@@ -70,7 +70,7 @@ DRESULT MMC_disk_write(const BYTE * buff, int sector, int count) {
 		sector ++;
 	}
 #endif
-	if (sd_write_multiple_blocks(sector, buff, count) == 0) {
+	if (sd_write_multiple_blocks(sector, (char *)buff, count) == 0) {
 		return RES_OK;
 	} else {
 		return RES_ERROR;
